@@ -10,14 +10,15 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 ## Introduction
 
-Agriculture is one of the most important primary occupation in Assam. Around 80% of the population of Assam is directly or indirectly dependent on agriculture in some way or another. so, the economy, development and many more important aspects of the people of Assam is somewhat related to agricultural factors of Assam. 
-Crop production in Assam is depends on a large number of factors ranging from season type to Area of cultivation. 
+Agriculture is one of the most important primary occupations in Assam. Around 80% of the population of Assam is directly or indirectly dependent on agriculture in some way or another. so, the economy, development, and many more important aspects of the people of Assam are somewhat related to the agricultural factors of Assam. 
+Crop production in Assam depends on a large number of factors ranging from season type to Area of cultivation. 
 
-We are going to conduct a visual analysis on the Crop production in Assam, and try to convey some basic but important conclusions that may help us to understand the agricultural environment of Assam.
+We are going to conduct a visual analysis of the Crop production in Assam, and try to convey some basic but important conclusions that may help us to understand the agricultural environment of Assam.
 
 ## Dataset Description
 
 We are going to use the Crop Production in India Dataset for this project. Anyone willing to look into the dataset can access it through the link <https://www.kaggle.com/datasets/abhinand05/crop-production-in-india?select=crop_production.csv>.
+
 ```{r include=FALSE}
 library(ggplot2)
 library(dplyr)
@@ -27,13 +28,15 @@ data = read.csv("crop_production.csv")
 assam_data = data[data$State_Name == "Assam",][,-c(1)]
 assam_data = na.omit(assam_data)
 ```
-The dataset consist of data for the whole India, but we are using a subset of the data containing only information about the crop production of Assam for our analysis.
 
-Top 6 rows of the Dataset are
+The dataset consists of data for the whole of India, but we are using a subset of the data containing only information about the crop production of Assam for our analysis.
+
+The top 6 rows of the Dataset are
 ```{r}
 head(assam_data)
 ```
-The top 10 crops alongwith their mean production produced in Assam betwwen 1997 & 2014 are
+
+The top 10 crops along with their mean production produced in Assam between 1997 & 2014 are
 
 ```{r}
 df_grp = assam_data %>% group_by(Crop_Year, Crop) %>% summarise(t_production = sum(Production), .groups = 'drop')
@@ -42,11 +45,15 @@ df_grp_1_d = df_grp_1[order(df_grp_1$mean_production , decreasing = TRUE),]
 df_grp_1_d[1:10,]
 major_crops = df_grp_1_d[1:10,]$Crop
 ```
+
 It is seen that for a particular crop, the area and the production is highly correlated, the correlation matrix for Rice is shown below.
+
 ```{r}
 cor(assam_data[assam_data$Crop == "Rice",c( "Area", "Production")])
 ```
+
 ## Graphical presentation
+
 ```{r message = FALSE}
 df_grp_maj_crops = df_grp[df_grp$Crop %in% major_crops,]
 ggplot(data = df_grp_maj_crops)+
@@ -54,7 +61,8 @@ ggplot(data = df_grp_maj_crops)+
   geom_line()+
   labs(title = 'Time vs Total Production(log) of top 10 crops of Assam by Production', x = 'Year', y = 'Total production(log)')
 ```
-From the above graph, we can see that although the coconut production was the highest in 2000 to 2010, after 2010, there is a sudden drop in its production. Among other crops we can see that all of them has a steady increase or decrease of production over time. Rice is seen to be in an increasing trend throughout the timeline.
+
+From the above graph, we can see that although coconut production was the highest from 2000 to 2010, after 2010, there is a sudden drop in its production. Among other crops, we can see that all of them have a steady increase or decrease in production over time. Rice is seen to be in an increasing trend throughout the timeline.
 
 Now let us see the seasonal production of the top crops produced.
 
@@ -68,13 +76,14 @@ p = ggplot(df_grp_new)+
 
 p + facet_wrap(.~Season)
 ```
-Now, we can see out of the top 10 crops only 6 of them are produced in the whole years. All other crops were produced on a seasonal basis.
 
-Now if we look in the case of Rice, we see that it is produced in Autumn, Winter & Summer. In Winter & Summer the trend of production is increasing over the years, but in Autumn the trend of Production is decreasing.
+Now, we can see out of the top 10 crops only 6 of them are produced in the whole year. All other crops were produced on a seasonal basis.
+
+Now if we look at the case of Rice, we see that it is produced in Autumn, Winter & Summer. In Winter & Summer, the trend of production is increasing over the years, but in Autumn the trend of Production is decreasing.
 
 If we look closely enough, we can see that Jute is only produced in the Kharif season and its production is more or less constant over the timeline.
 
-We will now focus of analysis of Rice production, although analysis of other crops is also possible and anyone willing to look up on that can visit my shiny app website for the same.
+We will now focus on the analysis of Rice production, although analysis of other crops is also possible and those who are interested can visit my shiny app website for the same.
 
 ```{r}
 df_grp_by_dist_rice = assam_data[assam_data$Crop == 'Rice',] %>% group_by(District_Name) %>% summarise(t_production = mean(Production), .groups = 'drop')
@@ -95,11 +104,11 @@ ggarrange(bar_plot, pie_chart, ncol = 2, nrow = 1, common.legend = TRUE, legend 
 
 From the above graph, we can easily see that in the production of rice a large share is contributed by Nagaon as compared to other districts.
 
-Similarly when we look for other crops we find that Nagaon is the leading producer in most of the top crops produced in Assam, followed by Sonitpur.
+Similarly, when we look for other crops we find that Nagaon is the leading producer of most of the top crops produced in Assam, followed by Sonitpur.
 
 
 
-Now we can look on the trend of rice production over the years for top 10 rice producing Districts.
+Now we can look at the trend of rice production over the years for the top 10 rice producing Districts.
 
 ```{r message=FALSE}
 df_grp_by_dist_rice = assam_data[assam_data$Crop == 'Rice',] %>% group_by(District_Name, Crop_Year) %>% summarise(t_production = sum(Production), .groups = 'drop')
@@ -112,30 +121,30 @@ ggplot(data = d1)+
   labs(x = 'Year', y = 'Production of Rice')
 ```
 
-In the above plot, we have shown the trend of rice production over the years for top 10 rice producing Districts.
+In the above plot, we have shown the trend of rice production over the years for the top 10 rice-producing Districts.
 
 For more graphical presentation and analysis, please refer to my shiny app website.
 
 ## Summary of Analysis
 
-We have done a visual analysis on the Crop production in Assam between 1997 & 2014 and we have found some interesting conclusion regarding this. Some of them are:
+We have done a visual analysis of the Crop production in Assam between 1997 & 2014 and we have found some interesting conclusions regarding this. Some of them are:
 
-1. The correlation between Area and Production of a particular crop is mostly between 8 and 1, showing a strong positive correlation between Area and Production for a particular crop.
+1. The correlation between the Area and Production of a particular crop is mostly between 8 and 1, showing a strong positive correlation between Area and Production for a particular crop.
 
-2. Coconut is the most produced crop during the period between 1997 and 2014, although the production after 2010 has diminised a lot.
+2. Coconut is the most-produced crop during the period between 1997 and 2014, although production after 2010 has diminished a lot.
 
-3. Rice is the seondmost produced crop during the time period. It is one of the most consistent crop whose production kept on increasing steadily over the period of time, but its production for the autumn season is dcreasing over time.
+3. Rice is the second most produced crop during the whole period. It is one of the most consistent crops whose production kept on increasing steadily over time, but its production for the autumn season is decreasing over time.
 
-4. Among the 10 most produced crop during the time period, only 6 of the 10 crops are produced during the whole year, other 4 were seasonal crops.
+4. Among the 10 most produced crops during the time, only 6 of the 10 crops are produced during the whole year, the other 4 were seasonal crops.
 
 5. For Rice, we found that Nagaon is the district with the highest production and its production is roughly around $\frac{1}{8}th$ of the total production of the state.
 
-6. Nagaon is also the leading producer of Paddy, Sugarcane, Banana & Jute in Assam which are also among the most produced crops in Assam making Nagaon one of the most agricultural friendly district in Assam.
+6. Nagaon is also the leading producer of Paddy, Sugarcane, Banana & Jute in Assam which is also among the most produced crops in Assam making Nagaon one of the most agricultural-friendly districts in Assam.
 
 #I have covered most of the basic visual analysis possible for the data. For further analysis and graphical presentation of the data, please go to my shiny app website.
 
 ## Conclusion
 
-We have tried our level best to conduct a visual analysis on Crop Production in Assam and provide some important conclusions on it. The data we used is publically available and we assumed it to be correct upto a certain level while making important conclusions for the project. 
+We have tried our level best to conduct a visual analysis of Crop Production in Assam and provide some important conclusions on it. The data we used is publically available and we assumed it to be correct up to a certain level while making important conclusions for the project. 
 
-It is not possible for us to present to you with every graph and plots we used for this analysis. Anyone willing to look into them can check them on the Shiny app website provided in the first part of the project.
+We can't present to you every graph and plot we used for this analysis. Anyone willing to look into them can check them on the Shiny app website provided in the first part of the project.
