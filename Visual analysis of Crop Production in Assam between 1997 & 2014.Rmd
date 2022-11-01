@@ -54,11 +54,11 @@ cor(assam_data[assam_data$Crop == "Rice",c( "Area", "Production")])
 
 ## Graphical presentation
 
-```{r message = FALSE}
+```{r message = FALSE, warning=FALSE}
 df_grp_maj_crops = df_grp[df_grp$Crop %in% major_crops,]
 ggplot(data = df_grp_maj_crops)+
   aes(x = Crop_Year, y= log(t_production), color = Crop)+
-  geom_line()+
+  geom_smooth(se = FALSE)+
   labs(title = 'Time vs Total Production(log) of top 10 crops of Assam by Production', x = 'Year', y = 'Total production(log)')
 ```
 
@@ -66,7 +66,7 @@ From the above graph, we can see that although coconut production was the highes
 
 Now let us see the seasonal production of the top crops produced.
 
-```{r}
+```{r message=FALSE}
 df_grp_new = assam_data %>% group_by(Crop_Year,Season, Crop) %>% summarise(t_production = sum(Production), .groups = 'drop')
 df_grp_new = df_grp_new[df_grp_new$Crop %in% major_crops,]
 p = ggplot(df_grp_new)+
@@ -116,7 +116,7 @@ d1 = d$District_Name
 d1 = df_grp_by_dist_rice[df_grp_by_dist_rice$District_Name %in% d1[1:10],]
 ggplot(data = d1)+
   aes(x = Crop_Year, y= t_production, color = District_Name)+
-  geom_line()+
+  geom_smooth(se = FALSE)+
   theme(axis.text.x =element_text(size = 6), axis.text.y =element_text(angle = 90, size = 6))+
   labs(x = 'Year', y = 'Production of Rice')
 ```
@@ -148,3 +148,4 @@ We have done a visual analysis of the Crop production in Assam between 1997 & 20
 We have tried our level best to conduct a visual analysis of Crop Production in Assam and provide some important conclusions on it. The data we used is publically available and we assumed it to be correct up to a certain level while making important conclusions for the project. 
 
 We can't present to you every graph and plot we used for this analysis. Anyone willing to look into them can check them on the Shiny app website provided in the first part of the project.
+
