@@ -93,7 +93,7 @@ We will now focus on the analysis of Rice production, although analysis of other
 
 ```{r}
 df_grp_by_dist_rice = assam_data[assam_data$Crop == 'Rice',] %>% group_by(District_Name) %>% summarise(t_production = mean(Production), .groups = 'drop')
-d = df_grp_by_dist_rice[order(df_grp_by_dist_rice$t_production, decreasing = TRUE),]
+d = df_grp_by_dist_rice[order(df_grp_by_dist_rice$t_production, decreasing = TRUE),][1:10,]
 pie_chart =  ggplot(data = d)+
   aes(x = '', y= t_production, fill = District_Name)+
   geom_bar(stat = 'identity')+
@@ -104,8 +104,8 @@ bar_plot = ggplot(data = d)+
   aes(x = reorder(District_Name, -t_production), y= t_production, fill = District_Name)+
   geom_bar(stat = 'identity')+
   theme(axis.text.x =element_text(angle = 90, size = 6), axis.text.y =element_text(angle = 90, size = 6))+
-  labs(x = 'District Name', y = 'Mean Production of Rice')
-ggarrange(bar_plot, pie_chart, ncol = 2, nrow = 1, common.legend = TRUE, legend = 'none' )
+  labs(x = 'District Name', y = 'Mean Production of Rice', title = 'Crop production vs District for top 10 rice producing districts of Assam')
+ggarrange(bar_plot, pie_chart, ncol = 2, nrow = 1, common.legend = TRUE, legend = 'none')
 ```
 
 From the above graph, we can easily see that in the production of rice a large share is contributed by Nagaon as compared to other districts.
