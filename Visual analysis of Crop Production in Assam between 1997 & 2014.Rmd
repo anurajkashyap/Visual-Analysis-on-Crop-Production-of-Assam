@@ -15,6 +15,8 @@ Crop production in Assam depends on a large number of factors ranging from seaso
 
 We are going to conduct a visual analysis of the Crop production in Assam, and try to convey some basic but important conclusions that may help us to understand the agricultural environment of Assam.
 
+For a more detailed analysis please visit https://anurajkashyap.shinyapps.io/crop_production_shiny_app/
+
 ## Dataset Description
 
 We are going to use the Crop Production in India Dataset for this project. Anyone willing to look into the dataset can access it through the link <https://www.kaggle.com/datasets/abhinand05/crop-production-in-india?select=crop_production.csv>.
@@ -64,7 +66,7 @@ cor(assam_data[assam_data$Crop == "Rice",c( "Area", "Production")])
 df_grp_maj_crops = df_grp[df_grp$Crop %in% major_crops,]
 ggplot(data = df_grp_maj_crops)+
   aes(x = Crop_Year, y= log(t_production), color = Crop)+
-  geom_smooth(se = FALSE)+
+  geom_line()+
   labs(title = 'Time vs Total Production(log) of top 10 crops of Assam by Production', x = 'Year', y = 'Total production(log)')
 ```
 
@@ -122,7 +124,7 @@ d1 = d$District_Name
 d1 = df_grp_by_dist_rice[df_grp_by_dist_rice$District_Name %in% d1[1:10],]
 ggplot(data = d1)+
   aes(x = Crop_Year, y= t_production, color = District_Name)+
-  geom_smooth(se = FALSE)+
+  geom_line()+
   theme(axis.text.x =element_text(size = 6), axis.text.y =element_text(angle = 90, size = 6))+
   labs(x = 'Year', y = 'Production of Rice')
 ```
