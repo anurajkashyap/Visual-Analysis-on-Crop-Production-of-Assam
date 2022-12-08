@@ -1,0 +1,13 @@
+name: crop_production_shiny_app
+title:
+username:
+account: anurajkashyap
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7544757
+bundleId: 6561561
+url: https://anurajkashyap.shinyapps.io/crop_production_shiny_app/
+when: 1669623452.55175
+lastSyncTime: 1669623452.55176
+asMultiple: FALSE
+asStatic: FALSE
