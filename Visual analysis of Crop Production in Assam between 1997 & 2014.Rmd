@@ -17,6 +17,9 @@ We are going to conduct a visual analysis of the Crop production in Assam, and t
 
 For a more detailed analysis please visit https://anurajkashyap.shinyapps.io/crop_production_shiny_app/
 
+For the full tour of the shiny dashboard, please refer to
+https://www.youtube.com/watch?v=CfPKTd2e0d4
+
 ## Dataset Description
 
 We are going to use the Crop Production in India Dataset for this project. Anyone willing to look into the dataset can access it through the link <https://www.kaggle.com/datasets/abhinand05/crop-production-in-india?select=crop_production.csv>.
@@ -156,3 +159,4 @@ We have done a visual analysis of the Crop production in Assam between 1997 & 20
 We have tried our level best to conduct a visual analysis of Crop Production in Assam and provide some important conclusions on it. The data we used is publically available and we assumed it to be correct up to a certain level while making important conclusions for the project. 
 
 We can't present to you every graph and plot we used for this analysis. Anyone willing to look into them can check them on the Shiny app website provided in the first part of the project.
+
